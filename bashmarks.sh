@@ -113,7 +113,7 @@ function t {
 		end tell
 		tell application "Terminal"
 			activate
-			do script with command "cd $dst; $*" in window 1
+			do script with command "cd $dst" in window 1
 		end tell
 APPLESCRIPT
 }
