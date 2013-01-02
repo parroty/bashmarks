@@ -206,16 +206,18 @@ function _purge_line {
 	fi
 }
 
-# bind completion command for o g,p,d to _comp
+# bind completion command for o g,p,d,t to _comp
 if [ $ZSH_VERSION ]; then
 	compctl -K _compzsh o
 	compctl -K _compzsh g
 	compctl -K _compzsh _p
 	compctl -K _compzsh d
+	compctl -K _compzsh t
 else
 	shopt -s progcomp
 	complete -F _comp o
 	complete -F _comp g
 	complete -F _comp _p
 	complete -F _comp d
+	complete -F _comp t
 fi
