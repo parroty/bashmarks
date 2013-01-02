@@ -108,12 +108,12 @@ function t {
 	
 	shift
 	osascript > /dev/null 2>&1 <<APPLESCRIPT
+		tell application "System Events"
+			tell process "Terminal" to keystroke "t" using command down
+		end tell
 		tell application "Terminal"
-			tell application "System Events"
-				tell process "Terminal" to keystroke "t" using command down
-				delay 0.1
-				keystroke "cd $dst; $*\n"
-			end tell
+			activate
+			do script with command "cd $dst; $*" in window 1
 		end tell
 APPLESCRIPT
 }
