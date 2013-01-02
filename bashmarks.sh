@@ -102,11 +102,12 @@ function t {
 		dst="`pwd`"
 	elif [[ "$1" == "-" || "$1" == ".." || "$1" == '~' ||  "$1" == '/' ]]; then 
 		dst="$1";
+		shift
 	else 
 		dst="$(eval $(echo echo $(echo \$DIR_$1)))"
+		shift
 	fi
 	
-	shift
 	osascript > /dev/null 2>&1 <<APPLESCRIPT
 		tell application "System Events"
 			tell process "Terminal" to keystroke "t" using command down
