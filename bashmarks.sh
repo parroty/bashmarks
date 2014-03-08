@@ -1,8 +1,8 @@
-# fork of bashmarks that has mac specific features	  
-# Bilal Syed Hussain 
+# fork of bashmarks that has mac specific features
+# Bilal Syed Hussain
 # based of https://github.com/huyng/bashmarks
 
-# USAGE: 
+# USAGE:
 # s <bookmark_name>  - Saves the current directory as "bookmark_name"
 # g <bookmark_name>  - Goes (cd) to the directory associated with "bookmark_name"
 # d <bookmark_name>  - Deletes the bookmark
@@ -13,11 +13,11 @@
 # g -                - Goes to the previous directory
 # _p <bookmark_name> - Prints the directory associated with "bookmark_name"
 
-# Mac only 
+# Mac only
 # o <bookmark_name>  - Open the directory associated with "bookmark_name" in Finder
 # t <bookmark_name>  - Open the directory associated with "bookmark_name" in a new tab
 
-# Tab completion for g o p and d 
+# Tab completion for g o p and d
 # setup file to store bookmarks
 if [ ! -n "$SDIRS" ]; then
 	SDIRS=~/.sdirs
@@ -48,13 +48,13 @@ function g {
 	if [ -z $1 ]; then
 		cd "$(eval $(echo echo $(echo \$DIR_DEFAULT)))"
 		pwd; $*
-	elif [[ "$1" == "-" ]]; then 
+	elif [[ "$1" == "-" ]]; then
 		cd $1;
-		shift; $*		
-	elif [[ "$1" == ".."  || "$1" == '~' || "$1" == '/' ]]; then 
+		shift; $*
+	elif [[ "$1" == ".."  || "$1" == '~' || "$1" == '/' ]]; then
 		cd $1;
 		pwd; shift; $*
-	else 
+	else
 		cd "$(eval $(echo echo $(echo \$DIR_$1)))"
 		pwd; shift; $*
 	fi
@@ -100,14 +100,14 @@ function t {
 	source $SDIRS
 	if [ -z $1 ]; then
 		dst="`pwd`"
-	elif [[ "$1" == "-" || "$1" == ".." || "$1" == '~' ||  "$1" == '/' ]]; then 
+	elif [[ "$1" == "-" || "$1" == ".." || "$1" == '~' ||  "$1" == '/' ]]; then
 		dst="$1";
 		shift
-	else 
+	else
 		dst="$(eval $(echo echo $(echo \$DIR_$1)))"
 		shift
 	fi
-	
+
 	osascript > /dev/null 2>&1 <<APPLESCRIPT
 		tell application "System Events"
 			tell process "Terminal" to keystroke "t" using command down
@@ -147,24 +147,24 @@ alias l='_bookmarks'
 function _bookmarks {
 	check_help $1
 	source $SDIRS
-	 
-	if [  -n "$1" ]; then 
+
+	if [  -n "$1" ]; then
 		# if color output is not working for you, comment out the line below '\033[1;34m' == "blue"
 		env | sort | grep "DIR_$1" |  awk '/DIR_.+/{split(substr($0,5),parts,"="); printf("\033[1;34m%-20s\033[0m %s\n", parts[1], parts[2]);}'
 		# uncomment this line if color output is not working with the line above
 		# env | grep "^DIR_" | cut -c5-	 | grep "^.*=" | sort
-	else 
+	else
 		# if color output is not working for you, comment out the line below '\033[1;34m' == "blue"
 		env | sort | awk '/DIR_.+/{split(substr($0,5),parts,"="); printf("\033[1;34m%-20s\033[0m %s\n", parts[1], parts[2]);}'
 		# uncomment this line if color output is not working with the line above
-		# env | grep "^DIR_" | cut -c5-	 | grep "^.*=" | sort  
+		# env | grep "^DIR_" | cut -c5-	 | grep "^.*=" | sort
 	fi
 }
 
 # list bookmarks without dirname
 function _l {
 	source $SDIRS
-	env | grep "^DIR_" | cut -c5- | sort | grep "^.*=" | cut -f1 -d "=" 
+	env | grep "^DIR_" | cut -c5- | sort | grep "^.*=" | cut -f1 -d "="
 }
 
 # validate bookmark name
