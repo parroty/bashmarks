@@ -108,15 +108,15 @@ function t {
 		shift
 	fi
 
-	osascript > /dev/null 2>&1 <<APPLESCRIPT
-		tell application "System Events"
-			tell process "Terminal" to keystroke "t" using command down
-		end tell
-		tell application "Terminal"
-			activate
-			do script with command "cd $dst" in window 1
-		end tell
-APPLESCRIPT
+	osascript -e "
+	tell application \"iTerm\"
+	 tell the first terminal
+	  launch session \"Default Session\"
+	  tell the last session
+	   write text \"cd $(pwd)\"
+	  end tell
+	 end tell
+	end tell"
 }
 
 
